@@ -62,19 +62,15 @@ class TVShowService {
         }
     }
 
-    fun getAll(context: Context,
-               complete: (
-                       tvShowList: List<TVShow>,
-                       tvSeasonList: List<TVSeason>,
-                       tvEpisodeList: List<TVEpisode>) -> Unit) {
+    fun getTvShowList(context: Context,
+                      complete: (
+                              tvShowList: List<TVShow>) -> Unit) {
         Realm.init(context)
         val realm = Realm.getDefaultInstance()
         closing(realm) {
             val tvShowList = realm.where(TVShow::class.java).findAll().map { TVShow(it.id, it.tvShowName) }
-            val tvSeasonList = realm.where(TVSeason::class.java).findAll().map { TVSeason(it.id, it.seasonName, it.tvShowId) }
-            val tvEpisodeList = realm.where(TVEpisode::class.java).findAll().map { TVEpisode(it.id, it.episodeName, it.tvSeasonId, it.isWatched) }
             realm.commitTransaction()
-            complete(tvShowList, tvSeasonList, tvEpisodeList)
+            complete(tvShowList)
         }
     }
 

@@ -51,9 +51,8 @@ class TVEpisodeActivity : AppCompatActivity() {
     }
 
     private fun refreshList() {
-        tvService.getAll(applicationContext) {
-            _, _, el ->
-            val items = el.filter { it.tvSeasonId == intent.extras.getString("tvSeasonId") }.sortedBy { it.episodeName }.toMutableList()
+        tvService.getTvEpisodeOfTvSeason(this, intent.extras.getString("tvSeasonId")) {
+            val items = it.sortedBy { it.episodeName }.toMutableList()
             episodeList.addAll(items)
         }
     }

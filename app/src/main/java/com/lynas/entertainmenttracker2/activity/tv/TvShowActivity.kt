@@ -97,20 +97,17 @@ class TvShowActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-
-        tvService.getAll(this@TvShowActivity) {
-            tvList, _, _ ->
-            shows = tvList.sortedBy { it.tvShowName }.toMutableList()
+        tvService.getTvShowList(this@TvShowActivity) {
+            shows = it.sortedBy { it.tvShowName }.toMutableList()
             adapter = GeneralAdapter(this@TvShowActivity, shows, ListType.TV_SHOW)
             tvShowList.adapter = adapter
         }
     }
 
     private fun updateView() {
-        tvService.getAll(this@TvShowActivity) {
-            tvList, _, _ ->
+        tvService.getTvShowList(this@TvShowActivity) {
             shows.clear()
-            shows.addAll(tvList.sortedBy { it.tvShowName }.toMutableList())
+            shows.addAll(it.sortedBy { it.tvShowName }.toMutableList())
             adapter.notifyDataSetChanged()
         }
 

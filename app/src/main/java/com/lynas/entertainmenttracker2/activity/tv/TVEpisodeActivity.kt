@@ -6,7 +6,6 @@ import android.widget.ListView
 import com.lynas.entertainmenttracker2.ListType
 import com.lynas.entertainmenttracker2.adapter.GeneralAdapter
 import com.lynas.entertainmenttracker2.model.TVEpisode
-import com.lynas.entertainmenttracker2.service.FireBaseService
 import com.lynas.entertainmenttracker2.service.TVShowService
 import org.jetbrains.anko.*
 
@@ -47,7 +46,7 @@ class TVEpisodeActivity : AppCompatActivity() {
     private fun doThis() {
         tvService.getAll(applicationContext) {
             _, _, el ->
-            episodeList = el.filter { it.tvSeasonId == intent.extras.getString("tvSeasonId") }.toMutableList()
+            episodeList = el.filter { it.tvSeasonId == intent.extras.getString("tvSeasonId") }.sortedBy { it.episodeName }.toMutableList()
             adapter = GeneralAdapter(this@TVEpisodeActivity, episodeList, ListType.TV_EPISODE)
             listView.adapter = adapter
         }
@@ -56,7 +55,7 @@ class TVEpisodeActivity : AppCompatActivity() {
     private fun doThat() {
         tvService.getAll(applicationContext) {
             _, _, el ->
-            val items = el.filter { it.tvSeasonId == intent.extras.getString("tvSeasonId") }.toMutableList()
+            val items = el.filter { it.tvSeasonId == intent.extras.getString("tvSeasonId") }.sortedBy { it.episodeName }.toMutableList()
             episodeList.addAll(items)
         }
     }

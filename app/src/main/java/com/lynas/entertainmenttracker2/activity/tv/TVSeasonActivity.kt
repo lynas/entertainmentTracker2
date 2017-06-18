@@ -61,7 +61,7 @@ class TVSeasonActivity : AppCompatActivity() {
         super.onStart()
         tvService.getAll(this@TVSeasonActivity) {
             _, sl, _ ->
-            seasonList = sl.filter { it.tvShowId == selectedTvShowId }.toMutableList()
+            seasonList = sl.filter { it.tvShowId == selectedTvShowId }.sortedBy { it.seasonName }.toMutableList()
             adapter = GeneralAdapter(this@TVSeasonActivity, seasonList, ListType.TV_SEASON)
             lv_tv_season.adapter = adapter
         }
@@ -110,7 +110,7 @@ class TVSeasonActivity : AppCompatActivity() {
         tvService.getAll(this@TVSeasonActivity) {
             _, sl, _ ->
             seasonList.clear()
-            val sls = sl.filter { it.tvShowId == selectedTvShowId }.toMutableList()
+            val sls = sl.filter { it.tvShowId == selectedTvShowId }.sortedBy { it.seasonName }.toMutableList()
             seasonList.addAll(sls)
             adapter.notifyDataSetChanged()
 

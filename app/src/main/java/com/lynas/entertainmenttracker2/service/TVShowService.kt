@@ -40,12 +40,20 @@ class TVShowService {
         val realm = Realm.getDefaultInstance()
         closing(realm) {
             val newTvSeason = realm.createObject(TVSeason::class.java, UUID.randomUUID().toString())
-            newTvSeason.seasonName = "Season $season"
+            if (season.toInt() < 10) {
+                newTvSeason.seasonName = "Season 0$season"
+            } else {
+                newTvSeason.seasonName = "Season $season"
+            }
             newTvSeason.tvShowId = tvShowId
             FireBaseService.createOrUpdateNode(TV_SEASON, newTvSeason.id, newTvSeason)
             for (i in 1..episode) {
                 val newTvEpisode = realm.createObject(TVEpisode::class.java, UUID.randomUUID().toString())
-                newTvEpisode.episodeName = "Episode $i"
+                if (i < 10) {
+                    newTvEpisode.episodeName = "Episode 0$i"
+                } else {
+                    newTvEpisode.episodeName = "Episode $i"
+                }
                 newTvEpisode.tvSeasonId = newTvSeason.id
                 FireBaseService.createOrUpdateNode(TV_EPISODE, newTvEpisode.id, newTvEpisode)
             }

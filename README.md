@@ -1,6 +1,6 @@
 # README #
 
-This README would normally document whatever steps are necessary to get your application up and running.
+
 
 ### Tech used ###
 
@@ -13,4 +13,5 @@ This README would normally document whatever steps are necessary to get your app
 * local.properties
 * inside write sdk location
 * UNIX (sdk.dir=/Users/sazzad/devTools/android)
-* WIN (TBA)
+* WIN (sdk.dir=D\:\\devTools\\android-sdk)
+* Inside app directory you need to add google-services.json witch you will get by creating an app in firebase

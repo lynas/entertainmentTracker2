@@ -28,8 +28,6 @@ class TVEpisodeActivity : AppCompatActivity() {
                 alignParentRight()
             }
         }
-        doThis()
-
         listView.onItemClick({ _, _, i, _ ->
             val tvEpisodeTapped = episodeList[i]
             tvService.updateEpisode(this@TVEpisodeActivity, tvEpisodeTapped.id, !tvEpisodeTapped.isWatched) {
@@ -37,22 +35,22 @@ class TVEpisodeActivity : AppCompatActivity() {
                     isWatched = !tvEpisodeTapped.isWatched
                 }
                 episodeList.clear()
-                doThat()
+                refreshList()
                 adapter.notifyDataSetChanged()
             }
         })
     }
 
-    private fun doThis() {
-        tvService.getAll(applicationContext) {
-            _, _, el ->
-            episodeList = el.filter { it.tvSeasonId == intent.extras.getString("tvSeasonId") }.sortedBy { it.episodeName }.toMutableList()
+    override fun onStart() {
+        super.onStart()
+        tvService.getTvEpisodeOfTvSeason(this, intent.extras.getString("tvSeasonId")) {
+            episodeList = it.sortedBy { it.episodeName }.toMutableList()
             adapter = GeneralAdapter(this@TVEpisodeActivity, episodeList, ListType.TV_EPISODE)
             listView.adapter = adapter
         }
     }
 
-    private fun doThat() {
+    private fun refreshList() {
         tvService.getAll(applicationContext) {
             _, _, el ->
             val items = el.filter { it.tvSeasonId == intent.extras.getString("tvSeasonId") }.sortedBy { it.episodeName }.toMutableList()
